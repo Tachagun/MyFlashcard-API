@@ -3,3 +3,6 @@ node_modules
 .env
 
 /src/generated/prisma
+
+postman.txt
+myFlashcard_FULL_PROJECT_LOG.md

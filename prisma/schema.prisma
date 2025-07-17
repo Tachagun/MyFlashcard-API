@@ -49,14 +49,14 @@ model Deck {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
   deletedAt      DateTime?
-  deckCategoryId Int
+  deckCategoryId Int?
 
   // Relations
   owner       User               @relation("DeckOwner", fields: [userId], references: [id])
-  category    DeckCategory       @relation(fields: [deckCategoryId], references: [id])
+  category    DeckCategory?       @relation(fields: [deckCategoryId], references: [id])
   likes       DeckLike[]
   importedBy  UserImportedDeck[]
-  flashcards  Flashcard[]
+  flashcards  DeckFlashcard[]
   deckReports DeckReports[]
 
   // Self-relation: copied deck
@@ -65,6 +65,17 @@ model Deck {
   copies       Deck[] @relation("CopiedDeck")
 
   @@map("decks")
+}
+
+model DeckFlashcard {
+  deckId      Int
+  flashcardId Int
+
+  deck      Deck      @relation(fields: [deckId], references: [id])
+  flashcard Flashcard @relation(fields: [flashcardId], references: [id])
+
+  @@id([deckId, flashcardId])
+  @@map("deck_flashcards")
 }
 
 model DeckLike {
@@ -104,9 +115,9 @@ model Flashcard {
   createdAt   DateTime @default(now())
 
   // Relations
-  deck Deck?          @relation(fields: [deckId], references: [id])
-  tags FlashcardTag[]
-  User User           @relation(fields: [userId], references: [id])
+  tags  FlashcardTag[]
+  decks DeckFlashcard[]
+  User  User            @relation(fields: [userId], references: [id])
 
   @@map("flashcards")
 }
@@ -151,6 +162,7 @@ model DeckReports {
   reportReason String
   reportDetail String
   reportedAt   DateTime @default(now())
+  reportStatus ReportStatus @default(OPEN)
 
   // Relations
   deck      Deck @relation(fields: [deckId], references: [id])
@@ -170,4 +182,10 @@ enum AccountStatus {
   ACTIVE
   SUSPENDED
   DELETED
+}
+
+enum ReportStatus {
+  OPEN
+  RESOLVED
+  REJECTED
 }

@@ -3,7 +3,7 @@ import createError from "../utils/createError.js";
 import { generateUsername } from "../utils/generateUsername.js";
 import bcrypt from "bcryptjs";
 import { signToken } from "../utils/jwt.js";
-import prisma from "../config/prisma.config.js";
+
 
 export async function register(req, res, next) {
   try {
@@ -66,31 +66,12 @@ export async function login(req, res, next) {
   }
 }
 
-export const getMe = async (req, res, next) => {
+// Logout controller: client should delete JWT token on logout
+export async function logout(req, res, next) {
   try {
-    // req.user is set by the verifyToken middleware
-    const userId = req.user.id;
-
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: {
-        id: true,
-        email: true,
-        username: true,
-        profilePic: true,
-        aboutMe: true,
-        role: true,
-        accountStatus: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-    });
-
-    if (!user) return next(createError(404, "User not found"));
-
-    res.status(200).json({ user });
+    res.status(200).json({ message: "Logout successful" });
   } catch (error) {
     next(error);
   }
-};
+}
 

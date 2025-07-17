@@ -5,22 +5,29 @@
   "scripts": {
     "dev": "node --watch src/server.js"
   },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "type": "module",
   "dependencies": {
-    "@prisma/client": "^6.11.0",
+    "@faker-js/faker": "^9.9.0",
+    "@prisma/client": "^6.11.1",
     "bcryptjs": "^3.0.2",
+    "cloudinary": "^2.7.0",
     "cors": "^2.8.5",
     "dotenv": "^17.0.1",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
+    "multer": "^2.0.1",
+    "node-cron": "^4.2.0",
     "yup": "^1.6.1"
   },
   "devDependencies": {
-    "prisma": "^6.11.0"
+    "prisma": "^6.11.1"
   }
 }

@@ -1,7 +1,7 @@
 import express from "express";
 import { validate } from "../middlewares/validate.js";
 import { registerSchema } from "../validators/registerSchema.js";
-import { register, login, getMe } from "../controllers/auth.controller.js";
+import { register, login, logout } from "../controllers/auth.controller.js";
 import { loginSchema } from "../validators/loginSchema.js";
 import { verifyToken } from "../middlewares/auth.middleware.js";
 
@@ -20,7 +20,9 @@ authRoute.get("/", (req, res) => {
 
 authRoute.post("/register", validate(registerSchema), register)
 authRoute.post("/login", validate(loginSchema), login)
-authRoute.get("/me", verifyToken, getMe);
+
+authRoute.post("/logout", verifyToken, logout);
+
 
 
 
